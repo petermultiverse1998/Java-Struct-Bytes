@@ -1,0 +1,3 @@
+C:/Users/peter/OneDrive/Desktop/Github/Java-Struct-Bytes/C/struct_test/cmake-build-debug/CMakeFiles/struct_test.dir
+C:/Users/peter/OneDrive/Desktop/Github/Java-Struct-Bytes/C/struct_test/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/peter/OneDrive/Desktop/Github/Java-Struct-Bytes/C/struct_test/cmake-build-debug/CMakeFiles/rebuild_cache.dir
