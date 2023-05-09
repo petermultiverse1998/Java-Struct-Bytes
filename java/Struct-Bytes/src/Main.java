@@ -30,8 +30,18 @@ public class Main {
         apple.getStructure().forEach(System.out::println);
         System.out.println();
         printBytes(apple.getStructBytes());
+
+        Credential credential = new Credential();
+        credential.getStructure().forEach(System.out::println);
+        System.out.println(credential.getStructSize());
     }
 
+    static class Credential implements StructBytes{
+        private double
+                value;
+        private char[] name = new char[10];
+        private byte id;
+    }
 
     static class Fruit implements StructBytes{
         private final byte qty;

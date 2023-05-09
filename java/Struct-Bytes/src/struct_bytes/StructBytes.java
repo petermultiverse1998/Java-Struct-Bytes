@@ -25,6 +25,7 @@ public interface StructBytes {
 
     static int getStructSize(Object object) throws IllegalAccessException {
         int total_size = 0;
+        int maxSize = 0;
         for (java.lang.reflect.Field field : object.getClass().getDeclaredFields()) {
             String type = field.getType().getTypeName();
             int eachSize = 0;
@@ -138,16 +139,18 @@ public interface StructBytes {
 
             }
 
+            maxSize = Math.max(eachSize,maxSize);
             if(total_size!=0 && total_size%eachSize!=0) {
                 /*Add Empty Bytes */
                 total_size += (eachSize - total_size % eachSize);
             }
             total_size+=eachSize*count;
+
         }
 
-        if(total_size%4!=0){
+        if(total_size%maxSize!=0){
             /* Add empty bytes */
-            total_size+=(4-total_size%4);
+            total_size+=(maxSize-total_size%maxSize);
         }
         return total_size;
     }
@@ -155,6 +158,7 @@ public interface StructBytes {
     static List<DataType> getStructure(Object object) throws IllegalAccessException {
         List<DataType> types = new ArrayList<>();
         int total_size = 0;
+        int maxSize = 0;
         for (java.lang.reflect.Field field : object.getClass().getDeclaredFields()) {
             String type = field.getType().getTypeName();
             int eachSize = 0;
@@ -268,6 +272,8 @@ public interface StructBytes {
 
             }
 
+            maxSize = Math.max(maxSize,eachSize);
+
             if(total_size!=0 && total_size%eachSize!=0) {
                 /*Add Empty Bytes */
                 types.add(new DataType("empty",(eachSize - total_size % eachSize),1,'\0'));
@@ -277,10 +283,10 @@ public interface StructBytes {
             total_size+=eachSize*count;
         }
 
-        if(total_size%4!=0){
+        if(total_size%maxSize!=0){
             /* Add empty bytes */
-            types.add(new DataType("empty",(4 - total_size % 4),1,'\0'));
-            total_size+=(4-total_size%4);
+            types.add(new DataType("empty",(maxSize - total_size % maxSize),1,'\0'));
+            total_size+=(maxSize-total_size%maxSize);
         }
         return types;
     }
@@ -288,6 +294,7 @@ public interface StructBytes {
     static byte[] getStructBytes(Object object) throws IllegalAccessException {
         List<DataType> types = new ArrayList<>();
         int total_size = 0;
+        int maxSize = 0;
         for (java.lang.reflect.Field field : object.getClass().getDeclaredFields()) {
             String type = field.getType().getTypeName();
             int eachSize = 0;
@@ -401,6 +408,7 @@ public interface StructBytes {
 
             }
 
+            maxSize = Math.max(eachSize,maxSize);
             if(total_size!=0 && total_size%eachSize!=0) {
                 /*Add Empty Bytes */
                 types.add(new DataType("empty",(eachSize - total_size % eachSize),1,'\0'));
@@ -410,10 +418,10 @@ public interface StructBytes {
             total_size+=eachSize*count;
         }
 
-        if(total_size%4!=0){
+        if(total_size%maxSize!=0){
             /* Add empty bytes */
-            types.add(new DataType("empty",(4 - total_size % 4),1,'\0'));
-            total_size+=(4-total_size%4);
+            types.add(new DataType("empty",(maxSize - total_size % maxSize),1,'\0'));
+            total_size+=(maxSize-total_size%maxSize);
         }
 
         ByteBuffer buffer = ByteBuffer.allocate(total_size).order(ByteOrder.LITTLE_ENDIAN);
